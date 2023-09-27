@@ -84,7 +84,6 @@ public class FormPessoa extends Frame implements ActionListener{
         } else if (Integer.parseInt(idadeTextField.getText()) <= 0){
             throw new RuntimeException("O valor da idade tem que ser igual ou superior a 0");
         }
-        System.out.println("Testes passados.");
     }
 
     public void actionPerformed (ActionEvent e){
