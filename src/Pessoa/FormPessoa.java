@@ -65,27 +65,26 @@ public class FormPessoa extends Frame implements ActionListener{
         buttonExit.addActionListener(this);
 
         addWindowListener(new FechaJanela());
+        limparCampos(); 
     }
 
     public void limparCampos(){
-        //numeroTextField.setText("");
+        numeroTextField.setText(String.valueOf(Pessoa.getKp()));
         nomeTextField.setText("");
         sexoTextField.setText("");
         idadeTextField.setText("0");
     }
     
-    private boolean camposPreenchidos(){
+    private void camposPreenchidos(){
 
         if (nomeTextField.getText().equals("")){
             throw new RuntimeException("Todos os campos são obrigatórios");
-            //PROBLEMAS ABAIXO
-        } else if (sexoTextField.getText().equals("M") && sexoTextField.getText().equals("F")){
+        } else if (!sexoTextField.getText().equals("M") && !sexoTextField.getText().equals("F")){
             throw new RuntimeException("Só é permitido M ou F");
         } else if (Integer.parseInt(idadeTextField.getText()) <= 0){
             throw new RuntimeException("O valor da idade tem que ser igual ou superior a 0");
         }
         System.out.println("Testes passados.");
-        return true;
     }
 
     public void actionPerformed (ActionEvent e){
@@ -96,14 +95,10 @@ public class FormPessoa extends Frame implements ActionListener{
         } else if (e.getSource() == buttonOk){
             try {
                 camposPreenchidos();
-                umaPessoa.setIdade(Integer.parseInt(idadeTextField.toString()));
-                System.out.println("idade setado");
-                umaPessoa.setNome(nomeTextField.toString());
-                System.out.println("Nome setado");
-                umaPessoa.setSexo(sexoTextField.toString().charAt(0));
-                System.out.println("Sexo setado");
+                umaPessoa.setIdade(Integer.parseInt(idadeTextField.getText()));
+                umaPessoa.setNome(nomeTextField.getText());
+                umaPessoa.setSexo(sexoTextField.getText().charAt(0));
                 Pessoa.setKp(Pessoa.getKp() + 1);
-                System.out.println("KP setado");
                 limparCampos();
             } catch (RuntimeException a) {
                 if (a.getMessage() == "Todos os campos são obrigatórios"){
@@ -114,6 +109,12 @@ public class FormPessoa extends Frame implements ActionListener{
                     idadeTextField.setText(a.getMessage());
                 }
             }
+        } else if (e.getSource() == buttonShow){
+            limparCampos();
+            idadeTextField.setText(String.valueOf(umaPessoa.getIdade()));
+            nomeTextField.setText(umaPessoa.getNome());
+            sexoTextField.setText(String.valueOf(umaPessoa.getSexo()));
+            numeroTextField.setText(String.valueOf(Pessoa.getKp()));
         }
     }
 
